@@ -17,3 +17,11 @@ class HomePageTest(TestCase):
 		self.assertTrue(response.content.strip().startswith(b'<html>'))
 		self.assertEqual(response.content.decode(), expected_html)
 		self.assertTrue(response.content.strip().endswith(b'</html>'))
+
+	def test_home_page_can_save_a_POST_request(self):
+		request =HttpRequest()
+		request.method = 'POST'
+		request.POST['item_text'] = 'A new list item'
+
+		response = home_page(request)
+		self.assertIn('A new list item', response.content.decode())
